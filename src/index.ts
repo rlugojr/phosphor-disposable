@@ -7,6 +7,7 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
+
 /**
  * An object which implements the disposable pattern.
  */
