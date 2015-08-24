@@ -62,7 +62,7 @@ class DisposableDelegate implements IDisposable {
    * This is a read-only property which is always safe to access.
    */
   get isDisposed(): boolean {
-    return !!this._callback;
+    return !this._callback;
   }
 
   /**
@@ -105,7 +105,7 @@ class DisposableSet implements IDisposable {
    * This is a read-only property which is always safe to access.
    */
   get isDisposed(): boolean {
-    return !!this._set;
+    return !this._set;
   }
 
   /**
