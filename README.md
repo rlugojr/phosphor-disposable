@@ -73,3 +73,74 @@ Earlier versions may also work, but come with no guarantees.
 
 Usage Examples
 --------------
+
+**Note:** This module is fully compatible with Node/Babel/ES6/ES5. Simply
+omit the type declarations when using a language other than TypeScript.
+
+```typescript
+import {
+  DisposableDelegate, DisposableSet, IDisposable
+} from 'phosphor-disposable';
+
+
+// Convert a function into a disposable.
+var delegate = new DisposableDelegate(() => {
+  console.log('disposed');
+});
+
+delegate.dispose();  // logs: 'disposed'
+delegate.dispose();  // no-op
+
+
+// Create a collection of disposables.
+var d1 = new DisposableDelegate(() => {
+  console.log('one');
+});
+
+var d2 = new DisposableDelegate(() => {
+  console.log('two');
+});
+
+var d3 = new DisposableDelegate(() => {
+  console.log('three');
+});
+
+var set = new DisposableSet([d1, d2, d3]);
+
+set.dispose();  // logs: 'one', 'two', 'three'
+set.dispose();  // no-op
+
+
+// Create a custom disposable.
+class MyDisposable implements IDisposable {
+
+  constructor(id: string) {
+    this._id = id;
+  }
+
+  get isDisposed(): boolean {
+    return this._id === null;
+  }
+
+  dispose(): void {
+    if (this._id !== null) {
+      console.log(this._id);
+      this._id = null;
+    }
+  }
+
+  private _id: string;
+}
+
+var foo = new MyDisposable('foo');
+var bar = new MyDisposable('bar');
+var baz = new MyDisposable('baz');
+
+var set = new DisposableSet();
+set.add(foo);
+set.add(bar);
+set.add(baz);
+
+set.dispose();  // logs: 'foo', 'bar', 'baz'
+set.dispose();  // no-op
+```
