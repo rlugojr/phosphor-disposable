@@ -16,8 +16,7 @@ interface IDisposable {
   /**
    * Test whether the object has been disposed.
    *
-   * @returns `true` if the object has been disposed, `false`
-   *   otherwise.
+   * @returns `true` if the object has been disposed, `false` otherwise.
    *
    * #### Notes
    * This is a read-only property which is always safe to access.
