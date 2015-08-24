@@ -18,6 +18,10 @@ class TestDisposable implements IDisposable {
 
   count = 0;
 
+  get isDisposed(): boolean {
+    return this.count > 0;
+  }
+
   dispose(): void {
     this.count++;
   }
@@ -33,6 +37,26 @@ describe('phosphor-disposable', () => {
       it('should accept a callback', () => {
         var delegate = new DisposableDelegate(() => { });
         expect(delegate instanceof DisposableDelegate).to.be(true);
+      });
+
+    });
+
+    describe('#isDisposed', () => {
+
+      it('should be `false` before object is disposed', () => {
+        var delegate = new DisposableDelegate(() => { });
+        expect(delegate.isDisposed).to.be(false);
+      });
+
+      it('should be `true` after object is disposed', () => {
+        var delegate = new DisposableDelegate(() => { });
+        delegate.dispose();
+        expect(delegate.isDisposed).to.be(true);
+      });
+
+      it('should be read-only', () => {
+        var delegate = new DisposableDelegate(() => { });
+        expect(() => delegate.isDisposed = true).to.throwException();
       });
 
     });
@@ -76,6 +100,26 @@ describe('phosphor-disposable', () => {
         var item3 = new TestDisposable();
         var set = new DisposableSet([item1, item2, item3]);
         expect(set instanceof DisposableSet).to.be(true);
+      });
+
+    });
+
+    describe('#isDisposed', () => {
+
+      it('should be `false` before object is disposed', () => {
+        var set = new DisposableSet();
+        expect(set.isDisposed).to.be(false);
+      });
+
+      it('should be `true` after object is disposed', () => {
+        var set = new DisposableSet();
+        set.dispose();
+        expect(set.isDisposed).to.be(true);
+      });
+
+      it('should be read-only', () => {
+        var set = new DisposableSet();
+        expect(() => set.isDisposed = true).to.throwException();
       });
 
     });
