@@ -32,7 +32,7 @@ describe('phosphor-disposable', () => {
 
   describe('DisposableDelegate', () => {
 
-    describe('constructor', () => {
+    describe('#constructor()', () => {
 
       it('should accept a callback', () => {
         var delegate = new DisposableDelegate(() => { });
@@ -87,7 +87,7 @@ describe('phosphor-disposable', () => {
 
   describe('DisposableSet', () => {
 
-    describe('constructor', () => {
+    describe('#constructor()', () => {
 
       it('should accept no arguments', () => {
         var set = new DisposableSet();
