@@ -11,7 +11,7 @@ import expect = require('expect.js');
 
 import {
   DisposableDelegate, DisposableSet, IDisposable
-} from '../lib/index';
+} from '../../lib/index';
 
 
 class TestDisposable implements IDisposable {
