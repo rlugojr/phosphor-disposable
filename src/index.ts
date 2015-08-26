@@ -16,8 +16,6 @@ interface IDisposable {
   /**
    * Test whether the object has been disposed.
    *
-   * @returns `true` if the object has been disposed, `false` otherwise.
-   *
    * #### Notes
    * This is a read-only property which is always safe to access.
    */
@@ -54,9 +52,6 @@ class DisposableDelegate implements IDisposable {
 
   /**
    * Test whether the delegate has been disposed.
-   *
-   * @returns `true` if the delegate has been disposed, `false`
-   *   otherwise.
    *
    * #### Notes
    * This is a read-only property which is always safe to access.
@@ -98,8 +93,6 @@ class DisposableSet implements IDisposable {
 
   /**
    * Test whether the set has been disposed.
-   *
-   * @returns `true` if the set has been disposed, `false` otherwise.
    *
    * #### Notes
    * This is a read-only property which is always safe to access.
