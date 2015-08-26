@@ -1,6 +1,6 @@
 {
   "name": "phosphor-disposable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A module for expressing the disposable object pattern.",
   "main": "lib/index.js",
   "typescript": {
