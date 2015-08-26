@@ -29,6 +29,10 @@
     "type": "git",
     "url": "https://github.com/phosphorjs/phosphor-disposable.git"
   },
+  "files": [
+    "lib/index.js",
+    "lib/phosphor-disposable.d.ts"
+  ],
   "keywords": [
     "disposable"
   ],
