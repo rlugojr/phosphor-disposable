@@ -1,6 +1,9 @@
 phosphor-disposable
 ===================
 
+[![Build Status](https://travis-ci.org/phosphorjs/phosphor-disposable.svg)](https://travis-ci.org/phosphorjs/phosphor-disposable?branch=master)
+[![Coverage Status](https://coveralls.io/repos/phosphorjs/phosphor-disposable/badge.svg?branch=master&service=github)](https://coveralls.io/github/phosphorjs/phosphor-disposable?branch=master)
+
 A module for expressing the disposable object pattern.
 
 [API Docs](http://phosphorjs.github.io/phosphor-disposable/api/)
