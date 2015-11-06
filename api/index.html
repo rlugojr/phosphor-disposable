@@ -123,7 +123,7 @@ browserify myapp.js -o mybundle.js
 
 
 <span class="hljs-comment">// Convert a function into a disposable.</span>
-<span class="hljs-keyword">var</span> delegate = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
+<span class="hljs-keyword">let</span> delegate = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'disposed'</span>);
 });
 
@@ -132,19 +132,19 @@ delegate.dispose();  <span class="hljs-comment">// no-op</span>
 
 
 <span class="hljs-comment">// Create a collection of disposables.</span>
-<span class="hljs-keyword">var</span> d1 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
+<span class="hljs-keyword">let</span> d1 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'one'</span>);
 });
 
-<span class="hljs-keyword">var</span> d2 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
+<span class="hljs-keyword">let</span> d2 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'two'</span>);
 });
 
-<span class="hljs-keyword">var</span> d3 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
+<span class="hljs-keyword">let</span> d3 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'three'</span>);
 });
 
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> DisposableSet([d1, d2, d3]);
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> DisposableSet([d1, d2, d3]);
 
 <span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// logs: 'one', 'two', 'three'</span>
 <span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// no-op</span>
@@ -171,11 +171,11 @@ delegate.dispose();  <span class="hljs-comment">// no-op</span>
   <span class="hljs-keyword">private</span> _id: <span class="hljs-built_in">string</span>;
 }
 
-<span class="hljs-keyword">var</span> foo = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'foo'</span>);
-<span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'bar'</span>);
-<span class="hljs-keyword">var</span> baz = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'baz'</span>);
+<span class="hljs-keyword">let</span> foo = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'foo'</span>);
+<span class="hljs-keyword">let</span> bar = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'bar'</span>);
+<span class="hljs-keyword">let</span> baz = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'baz'</span>);
 
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> DisposableSet();
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> DisposableSet();
 <span class="hljs-keyword">set</span>.add(foo);
 <span class="hljs-keyword">set</span>.add(bar);
 <span class="hljs-keyword">set</span>.add(baz);
