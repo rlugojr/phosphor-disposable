@@ -47,7 +47,7 @@ class DisposableDelegate implements IDisposable {
    *   disposed.
    */
   constructor(callback: () => void) {
-    this._callback = callback;
+    this._callback = callback || null;
   }
 
   /**
@@ -57,7 +57,7 @@ class DisposableDelegate implements IDisposable {
    * This is a read-only property which is always safe to access.
    */
   get isDisposed(): boolean {
-    return !this._callback;
+    return this._callback === null;
   }
 
   /**
@@ -68,9 +68,12 @@ class DisposableDelegate implements IDisposable {
    * first will be a no-op.
    */
   dispose(): void {
-    var callback = this._callback;
+    if (this._callback === null) {
+      return;
+    }
+    let callback = this._callback;
     this._callback = null;
-    if (callback) callback();
+    callback();
   }
 
   private _callback: () => void;
@@ -88,7 +91,7 @@ class DisposableSet implements IDisposable {
    * @param items - The initial disposable items for the set.
    */
   constructor(items?: IDisposable[]) {
-    if (items) items.forEach(item => this._set.add(item));
+    if (items) items.forEach(item => { this._set.add(item); });
   }
 
   /**
@@ -98,7 +101,7 @@ class DisposableSet implements IDisposable {
    * This is a read-only property which is always safe to access.
    */
   get isDisposed(): boolean {
-    return !this._set;
+    return this._set === null;
   }
 
   /**
@@ -113,9 +116,12 @@ class DisposableSet implements IDisposable {
    * first will be a no-op.
    */
   dispose(): void {
-    var set = this._set;
+    if (this._set === null) {
+      return;
+    }
+    let set = this._set;
     this._set = null;
-    if (set) set.forEach(item => item.dispose());
+    set.forEach(item => { item.dispose(); });
   }
 
   /**
@@ -127,7 +133,7 @@ class DisposableSet implements IDisposable {
    * @throws Will throw an error if the set has been disposed.
    */
   add(item: IDisposable): void {
-    if (!this._set) {
+    if (this._set === null) {
       throw new Error('object is disposed');
     }
     this._set.add(item);
@@ -142,7 +148,7 @@ class DisposableSet implements IDisposable {
    * @throws Will throw an error if the set has been disposed.
    */
   remove(item: IDisposable): void {
-    if (!this._set) {
+    if (this._set === null) {
       throw new Error('object is disposed');
     }
     this._set.delete(item);
@@ -154,7 +160,7 @@ class DisposableSet implements IDisposable {
    * @throws Will throw an error if the set has been disposed.
    */
   clear(): void {
-    if (!this._set) {
+    if (this._set === null) {
       throw new Error('object is disposed');
     }
     this._set.clear();

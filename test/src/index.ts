@@ -35,7 +35,7 @@ describe('phosphor-disposable', () => {
     describe('#constructor()', () => {
 
       it('should accept a callback', () => {
-        var delegate = new DisposableDelegate(() => { });
+        let delegate = new DisposableDelegate(() => { });
         expect(delegate instanceof DisposableDelegate).to.be(true);
       });
 
@@ -44,18 +44,18 @@ describe('phosphor-disposable', () => {
     describe('#isDisposed', () => {
 
       it('should be `false` before object is disposed', () => {
-        var delegate = new DisposableDelegate(() => { });
+        let delegate = new DisposableDelegate(() => { });
         expect(delegate.isDisposed).to.be(false);
       });
 
       it('should be `true` after object is disposed', () => {
-        var delegate = new DisposableDelegate(() => { });
+        let delegate = new DisposableDelegate(() => { });
         delegate.dispose();
         expect(delegate.isDisposed).to.be(true);
       });
 
       it('should be read-only', () => {
-        var delegate = new DisposableDelegate(() => { });
+        let delegate = new DisposableDelegate(() => { });
         expect(() => delegate.isDisposed = true).to.throwException();
       });
 
@@ -64,16 +64,16 @@ describe('phosphor-disposable', () => {
     describe('#dispose()', () => {
 
       it('should invoke a callback when disposed', () => {
-        var called = false;
-        var delegate = new DisposableDelegate(() => called = true);
+        let called = false;
+        let delegate = new DisposableDelegate(() => called = true);
         expect(called).to.be(false);
         delegate.dispose();
         expect(called).to.be(true);
       });
 
       it('should ignore multiple calls to `dispose`', () => {
-        var count = 0;
-        var delegate = new DisposableDelegate(() => count++);
+        let count = 0;
+        let delegate = new DisposableDelegate(() => count++);
         expect(count).to.be(0);
         delegate.dispose();
         delegate.dispose();
@@ -90,15 +90,15 @@ describe('phosphor-disposable', () => {
     describe('#constructor()', () => {
 
       it('should accept no arguments', () => {
-        var set = new DisposableSet();
+        let set = new DisposableSet();
         expect(set instanceof DisposableSet).to.be(true);
       });
 
       it('should accept an array of disposable items', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet([item1, item2, item3]);
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet([item1, item2, item3]);
         expect(set instanceof DisposableSet).to.be(true);
       });
 
@@ -107,18 +107,18 @@ describe('phosphor-disposable', () => {
     describe('#isDisposed', () => {
 
       it('should be `false` before object is disposed', () => {
-        var set = new DisposableSet();
+        let set = new DisposableSet();
         expect(set.isDisposed).to.be(false);
       });
 
       it('should be `true` after object is disposed', () => {
-        var set = new DisposableSet();
+        let set = new DisposableSet();
         set.dispose();
         expect(set.isDisposed).to.be(true);
       });
 
       it('should be read-only', () => {
-        var set = new DisposableSet();
+        let set = new DisposableSet();
         expect(() => set.isDisposed = true).to.throwException();
       });
 
@@ -127,10 +127,10 @@ describe('phosphor-disposable', () => {
     describe('#dispose()', () => {
 
       it('should dispose all items in the set', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet([item1, item2, item3]);
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet([item1, item2, item3]);
         expect(item1.count).to.be(0);
         expect(item2.count).to.be(0);
         expect(item3.count).to.be(0);
@@ -141,21 +141,21 @@ describe('phosphor-disposable', () => {
       });
 
       it('should dipose items in the order they were added', () => {
-        var values: number[] = [];
-        var item1 = new DisposableDelegate(() => values.push(0));
-        var item2 = new DisposableDelegate(() => values.push(1));
-        var item3 = new DisposableDelegate(() => values.push(2));
-        var set = new DisposableSet([item1, item2, item3]);
+        let values: number[] = [];
+        let item1 = new DisposableDelegate(() => values.push(0));
+        let item2 = new DisposableDelegate(() => values.push(1));
+        let item3 = new DisposableDelegate(() => values.push(2));
+        let set = new DisposableSet([item1, item2, item3]);
         expect(values).to.eql([]);
         set.dispose();
         expect(values).to.eql([0, 1, 2]);
       });
 
       it('should ignore multiple calls to `dispose`', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet([item1, item2, item3]);
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet([item1, item2, item3]);
         expect(item1.count).to.be(0);
         expect(item2.count).to.be(0);
         expect(item3.count).to.be(0);
@@ -172,10 +172,10 @@ describe('phosphor-disposable', () => {
     describe('#add()', () => {
 
       it('should add items to the set', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet();
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet();
         set.add(item1);
         set.add(item2);
         set.add(item3);
@@ -189,11 +189,11 @@ describe('phosphor-disposable', () => {
       });
 
       it('should maintain insertion order', () => {
-        var values: number[] = [];
-        var item1 = new DisposableDelegate(() => values.push(0));
-        var item2 = new DisposableDelegate(() => values.push(1));
-        var item3 = new DisposableDelegate(() => values.push(2));
-        var set = new DisposableSet([item1]);
+        let values: number[] = [];
+        let item1 = new DisposableDelegate(() => values.push(0));
+        let item2 = new DisposableDelegate(() => values.push(1));
+        let item3 = new DisposableDelegate(() => values.push(2));
+        let set = new DisposableSet([item1]);
         set.add(item2);
         set.add(item3);
         expect(values).to.eql([]);
@@ -202,11 +202,11 @@ describe('phosphor-disposable', () => {
       });
 
       it('should ignore duplicate items', () => {
-        var values: number[] = [];
-        var item1 = new DisposableDelegate(() => values.push(0));
-        var item2 = new DisposableDelegate(() => values.push(1));
-        var item3 = new DisposableDelegate(() => values.push(2));
-        var set = new DisposableSet([item1]);
+        let values: number[] = [];
+        let item1 = new DisposableDelegate(() => values.push(0));
+        let item2 = new DisposableDelegate(() => values.push(1));
+        let item3 = new DisposableDelegate(() => values.push(2));
+        let set = new DisposableSet([item1]);
         set.add(item2);
         set.add(item3);
         set.add(item3);
@@ -218,8 +218,8 @@ describe('phosphor-disposable', () => {
       });
 
       it('should throw if the set is disposed', () => {
-        var item = new TestDisposable();
-        var set = new DisposableSet();
+        let item = new TestDisposable();
+        let set = new DisposableSet();
         set.dispose();
         expect(() => set.add(item)).to.throwException();
       });
@@ -229,10 +229,10 @@ describe('phosphor-disposable', () => {
     describe('#remove()', () => {
 
       it('should remove items from the set', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet([item1, item2, item3]);
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet([item1, item2, item3]);
         expect(item1.count).to.be(0);
         expect(item2.count).to.be(0);
         expect(item3.count).to.be(0);
@@ -244,11 +244,11 @@ describe('phosphor-disposable', () => {
       });
 
       it('should maintain insertion order', () => {
-        var values: number[] = [];
-        var item1 = new DisposableDelegate(() => values.push(0));
-        var item2 = new DisposableDelegate(() => values.push(1));
-        var item3 = new DisposableDelegate(() => values.push(2));
-        var set = new DisposableSet([item1, item2, item3]);
+        let values: number[] = [];
+        let item1 = new DisposableDelegate(() => values.push(0));
+        let item2 = new DisposableDelegate(() => values.push(1));
+        let item3 = new DisposableDelegate(() => values.push(2));
+        let set = new DisposableSet([item1, item2, item3]);
         expect(values).to.eql([]);
         set.remove(item1);
         set.dispose();
@@ -256,11 +256,11 @@ describe('phosphor-disposable', () => {
       });
 
       it('should ignore missing items', () => {
-        var values: number[] = [];
-        var item1 = new DisposableDelegate(() => values.push(0));
-        var item2 = new DisposableDelegate(() => values.push(1));
-        var item3 = new DisposableDelegate(() => values.push(2));
-        var set = new DisposableSet([item1, item2]);
+        let values: number[] = [];
+        let item1 = new DisposableDelegate(() => values.push(0));
+        let item2 = new DisposableDelegate(() => values.push(1));
+        let item3 = new DisposableDelegate(() => values.push(2));
+        let set = new DisposableSet([item1, item2]);
         expect(values).to.eql([]);
         set.remove(item3);
         set.dispose();
@@ -268,8 +268,8 @@ describe('phosphor-disposable', () => {
       });
 
       it('should throw if the set is disposed', () => {
-        var item = new TestDisposable();
-        var set = new DisposableSet();
+        let item = new TestDisposable();
+        let set = new DisposableSet();
         set.dispose();
         expect(() => set.remove(item)).to.throwException();
       });
@@ -279,10 +279,10 @@ describe('phosphor-disposable', () => {
     describe('#clear()', () => {
 
       it('remove all items from the set', () => {
-        var item1 = new TestDisposable();
-        var item2 = new TestDisposable();
-        var item3 = new TestDisposable();
-        var set = new DisposableSet([item1, item2, item3]);
+        let item1 = new TestDisposable();
+        let item2 = new TestDisposable();
+        let item3 = new TestDisposable();
+        let set = new DisposableSet([item1, item2, item3]);
         expect(item1.count).to.be(0);
         expect(item2.count).to.be(0);
         expect(item3.count).to.be(0);
@@ -294,7 +294,7 @@ describe('phosphor-disposable', () => {
       });
 
       it('should throw if the set is disposed', () => {
-        var set = new DisposableSet();
+        let set = new DisposableSet();
         set.dispose();
         expect(() => set.clear()).to.throwException();
       });
