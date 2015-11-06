@@ -6,14 +6,11 @@ env:
   matrix:
     - GROUP=
   global:
+    - GHREPO=github.com/phosphorjs/phosphor-disposable
     - secure: RtUsl4CsLrKFEZnNw/mGN2oBKBsHVsNh1+bWXw6VmBGcjrD45q0Deu/zu3btQoXV3O03BNiGf9rQWhJQrLW7QxfAebxBHNZrIVL20OQUAqL3a6JPeoulFY/uj0poFpvV0Q/77HvB0pwVRFHXmYUUmd03THUFTJJfz+tqQ0h2e2BnOspO8sALPtFfHgoi43g4hse2sM7E9ZCvgmtnLtyJYUvLLG+dyqYL/fUvWAhGsoRJoi0K5Vp/7HLr7v6WeIjF4R+RVC3oyeWzrD/lf2cQUcU3UDsShgky4W3xSbo+Q86Midn+tWywW5077z9IhhotlJfzzRl53idfzC6zGP0/O/6vJ9R2GPRTbYQJErVjqXSX6tYGdCIgm2S9PgQ6UF7r8/+rYa/IgRtO2FtxSGTPh6q0lKoQeJ5NVrWhCPchGrGzUmws8gU69iYMomLEqCENwIo7zgIXdgsG3+hBDd/YKDp3pwA41jLY+EYmg9s6Lj6I8oPgms8eq9owVTaaMhn1oEnAIZJWidttOQyWIhrH2O7v4LrCK+mdsWYjb5m/RpSNqgi1UXOAm7AdraR5ehx/6chp01UtSpM8ErHeENMco3F0vO83bldvtFWpiSt6QWC9qQNCFBBYvRjSyPQNvPDEEaaTAuYX2dwNBhomNsSbSodecVwwTImIZ7kzWV5v8bY=
-before_install:
-  - chmod +x ./scripts/travis_install.sh
-  - chmod +x ./scripts/travis_script.sh
-  - chmod +x ./scripts/travis_after_success.sh
 install:
-  - ./scripts/travis_install.sh
+  - bash ./scripts/travis_install.sh
 script:
-  - ./scripts/travis_script.sh
+  - bash ./scripts/travis_script.sh
 after_success:
-  - ./scripts/travis_after_success.sh
+  - bash ./scripts/travis_after_success.sh

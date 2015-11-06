@@ -98,7 +98,7 @@ import {
 
 
 // Convert a function into a disposable.
-var delegate = new DisposableDelegate(() => {
+let delegate = new DisposableDelegate(() => {
   console.log('disposed');
 });
 
@@ -107,19 +107,19 @@ delegate.dispose();  // no-op
 
 
 // Create a collection of disposables.
-var d1 = new DisposableDelegate(() => {
+let d1 = new DisposableDelegate(() => {
   console.log('one');
 });
 
-var d2 = new DisposableDelegate(() => {
+let d2 = new DisposableDelegate(() => {
   console.log('two');
 });
 
-var d3 = new DisposableDelegate(() => {
+let d3 = new DisposableDelegate(() => {
   console.log('three');
 });
 
-var set = new DisposableSet([d1, d2, d3]);
+let set = new DisposableSet([d1, d2, d3]);
 
 set.dispose();  // logs: 'one', 'two', 'three'
 set.dispose();  // no-op
@@ -146,11 +146,11 @@ class MyDisposable implements IDisposable {
   private _id: string;
 }
 
-var foo = new MyDisposable('foo');
-var bar = new MyDisposable('bar');
-var baz = new MyDisposable('baz');
+let foo = new MyDisposable('foo');
+let bar = new MyDisposable('bar');
+let baz = new MyDisposable('baz');
 
-var set = new DisposableSet();
+let set = new DisposableSet();
 set.add(foo);
 set.add(bar);
 set.add(baz);
