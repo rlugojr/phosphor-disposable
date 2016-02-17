@@ -4,13 +4,12 @@ phosphor-disposable
 [![Build Status](https://travis-ci.org/phosphorjs/phosphor-disposable.svg)](https://travis-ci.org/phosphorjs/phosphor-disposable?branch=master)
 [![Coverage Status](https://coveralls.io/repos/phosphorjs/phosphor-disposable/badge.svg?branch=master&service=github)](https://coveralls.io/github/phosphorjs/phosphor-disposable?branch=master)
 
-A module for expressing the disposable object pattern.
+This is a module for expressing the disposable object pattern. Two constructors
+are included to create disposable delegates and collections of disposables.
 
-[API Docs](http://phosphorjs.github.io/phosphor-disposable/api/)
 
-
-Package Install
----------------
+<a name='install'></a>Package Install
+-------------------------------------
 
 **Prerequisites**
 - [node](http://nodejs.org/)
@@ -79,10 +78,8 @@ Bundle for the Browser
 
 Follow the package install instructions first.
 
-```bash
-npm install --save-dev browserify
-browserify myapp.js -o mybundle.js
-```
+Any bundler that understands how to `require()` files with .js and .css
+extensions can be used with this package.
 
 
 Usage Examples
@@ -91,41 +88,77 @@ Usage Examples
 **Note:** This module is fully compatible with Node/Babel/ES6/ES5. Simply
 omit the type declarations when using a language other than TypeScript.
 
+To test the `phosphor-queue` module in a node interactive shell after the
+[installation](#install), open a terminal in your current working directory and
+run:
+
+```
+node
+```
+
+Then import the module into Node with the following command:
+
+```node
+> disposable = require('phosphor-disposable');
+```
+
+To convert a function into a disposable delegate is straightforward, once the
+delegate is created `dispose()` disposes of the delegate and invokes its
+callback. The `dispose()` method only works the first time, subsequent calls
+will do nothing.
+
+```node
+> let delegate = new disposable.DisposableDelegate(() => {
+... console.log('disposed');
+... });
+
+> delegate.dispose();
+disposed
+
+> delegate.dispose();
+
+```
+
+Collections of disposables are created with the `DisposableSet` constructor. An
+array of disposable delegates can be passed as argument to the constructor,
+individual delegates can also be added to the disposable set by means of the
+`add()` method. The `dispose()` method will call the corresponding callback for
+each delegate function in the set.
+
+```node
+> let d1 = new disposable.DisposableDelegate(() => {
+... console.log('one');
+... });
+
+> let d2 = new disposable.DisposableDelegate(() => {
+... console.log('two');
+... });
+
+> let d3 = new disposable.DisposableDelegate(() => {
+... console.log('three');
+... });
+
+> let set = new disposable.DisposableSet([d1, d2]);
+
+> set.add(d3);
+
+> set.dispose();
+one
+two
+three
+
+> set.dispose();
+
+```
+
+You can create you own disposables from the `IDisposable` class, as you can see
+in the following typescript example:
+
 ```typescript
 import {
-  DisposableDelegate, DisposableSet, IDisposable
+  IDisposable
 } from 'phosphor-disposable';
 
-
-// Convert a function into a disposable.
-let delegate = new DisposableDelegate(() => {
-  console.log('disposed');
-});
-
-delegate.dispose();  // logs: 'disposed'
-delegate.dispose();  // no-op
-
-
-// Create a collection of disposables.
-let d1 = new DisposableDelegate(() => {
-  console.log('one');
-});
-
-let d2 = new DisposableDelegate(() => {
-  console.log('two');
-});
-
-let d3 = new DisposableDelegate(() => {
-  console.log('three');
-});
-
-let set = new DisposableSet([d1, d2, d3]);
-
-set.dispose();  // logs: 'one', 'two', 'three'
-set.dispose();  // no-op
-
-
-// Create a custom disposable.
 class MyDisposable implements IDisposable {
 
   constructor(id: string) {
@@ -158,3 +191,9 @@ set.add(baz);
 set.dispose();  // logs: 'foo', 'bar', 'baz'
 set.dispose();  // no-op
 ```
+
+
+API
+---
+
+[API Docs](http://phosphorjs.github.io/phosphor-disposable/api/)
