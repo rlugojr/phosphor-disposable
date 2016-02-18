@@ -151,7 +151,7 @@ three
 
 ```
 
-You can create you own disposables from the `IDisposable` class, as you can see
+Custom disposables can be created with the `IDisposable` class, as you can see
 in the following typescript example:
 
 ```typescript
