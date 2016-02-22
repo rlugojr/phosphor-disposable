@@ -151,8 +151,8 @@ three
 
 ```
 
-Custom disposables can be created with the `IDisposable` class, as you can see
-in the following typescript example:
+To create custom disposables you have to subclass the `IDisposable` class, as
+you can see in the following typescript example:
 
 ```typescript
 import {
