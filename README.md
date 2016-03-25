@@ -4,8 +4,7 @@ phosphor-disposable
 [![Build Status](https://travis-ci.org/phosphorjs/phosphor-disposable.svg)](https://travis-ci.org/phosphorjs/phosphor-disposable?branch=master)
 [![Coverage Status](https://coveralls.io/repos/phosphorjs/phosphor-disposable/badge.svg?branch=master&service=github)](https://coveralls.io/github/phosphorjs/phosphor-disposable?branch=master)
 
-This is a module for expressing the disposable object pattern. Two constructors
-are included to create disposable delegates and collections of disposables.
+A module for expressing the disposable object pattern.
 
 
 <a name='install'></a>Package Install
@@ -78,8 +77,8 @@ Bundle for the Browser
 
 Follow the package install instructions first.
 
-Any bundler that understands how to `require()` files with .js and .css
-extensions can be used with this package.
+Any bundler that understands how to `require()` files with .js extensions
+can be used with this package.
 
 
 Usage Examples
@@ -88,7 +87,7 @@ Usage Examples
 **Note:** This module is fully compatible with Node/Babel/ES6/ES5. Simply
 omit the type declarations when using a language other than TypeScript.
 
-To test the `phosphor-queue` module in a node interactive shell after the
+To test the `phosphor-disposable` module in a node interactive shell after the
 [installation](#install), open a terminal in your current working directory and
 run:
 
@@ -102,10 +101,10 @@ Then import the module into Node with the following command:
 > disposable = require('phosphor-disposable');
 ```
 
-To convert a function into a disposable delegate is straightforward, once the
-delegate is created `dispose()` disposes of the delegate and invokes its
-callback. The `dispose()` method only works the first time, subsequent calls
-will do nothing.
+Converting a function into a disposable object is straightforward using the
+provided `DisposableDelegate` class. Once the delegate is created, `dispose()`
+disposes of the delegate and invokes the callback. The `dispose()` method will
+only execute the function the first time, subsequent calls will do nothing.
 
 ```node
 > let delegate = new disposable.DisposableDelegate(() => {
@@ -119,11 +118,11 @@ disposed
 
 ```
 
-Collections of disposables are created with the `DisposableSet` constructor. An
-array of disposable delegates can be passed as argument to the constructor,
-individual delegates can also be added to the disposable set by means of the
-`add()` method. The `dispose()` method will call the corresponding callback for
-each delegate function in the set.
+Collections of disposables are created with the provided `DisposableSet()`
+class. An array of disposable objects can be passed as argument to the class
+constructor. Individual objects can also be added to the disposable set by
+means of the `add()` method. The `dispose()` method will dispose all of the
+objects added to the set.
 
 ```node
 > let d1 = new disposable.DisposableDelegate(() => {
@@ -151,8 +150,7 @@ three
 
 ```
 
-To create custom disposables you have to subclass the `IDisposable` class, as
-you can see in the following typescript example:
+Custom disposable objects can be created by implementing `IDisposable`:
 
 ```typescript
 import {
@@ -166,17 +164,18 @@ class MyDisposable implements IDisposable {
   }
 
   get isDisposed(): boolean {
-    return this._id === null;
+    return this._disposed;
   }
 
   dispose(): void {
-    if (this._id !== null) {
+    if (!this._disposed) {
+      this._disposed = true;
       console.log(this._id);
-      this._id = null;
     }
   }
 
   private _id: string;
+  private _disposed = false;
 }
 
 let foo = new MyDisposable('foo');
