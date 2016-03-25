@@ -68,9 +68,9 @@
 				<h1 id="phosphor-disposable">phosphor-disposable</h1>
 				<p><a href="https://travis-ci.org/phosphorjs/phosphor-disposable?branch=master"><img src="https://travis-ci.org/phosphorjs/phosphor-disposable.svg" alt="Build Status"></a>
 				<a href="https://coveralls.io/github/phosphorjs/phosphor-disposable?branch=master"><img src="https://coveralls.io/repos/phosphorjs/phosphor-disposable/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a></p>
-				<p>A module for expressing the disposable object pattern.</p>
-				<p><a href="http://phosphorjs.github.io/phosphor-disposable/api/">API Docs</a></p>
-				<h2 id="package-install">Package Install</h2>
+				<p>This is a module for expressing the disposable object pattern. Two constructors
+				are included to create disposable delegates and collections of disposables.</p>
+				<h2 id="-a-name-install-a-package-install"><a name='install'></a>Package Install</h2>
 				<p><strong>Prerequisites</strong></p>
 				<ul>
 					<li><a href="http://nodejs.org/">node</a></li>
@@ -111,46 +111,65 @@ npm run build
 				</ul>
 				<h2 id="bundle-for-the-browser">Bundle for the Browser</h2>
 				<p>Follow the package install instructions first.</p>
-				<pre><code class="lang-bash">npm install --save-dev browserify
-browserify myapp.js -o mybundle.js
-</code></pre>
+				<p>Any bundler that understands how to <code>require()</code> files with .js and .css
+				extensions can be used with this package.</p>
 				<h2 id="usage-examples">Usage Examples</h2>
 				<p><strong>Note:</strong> This module is fully compatible with Node/Babel/ES6/ES5. Simply
 				omit the type declarations when using a language other than TypeScript.</p>
+				<p>To test the <code>phosphor-queue</code> module in a node interactive shell after the
+					<a href="#install">installation</a>, open a terminal in your current working directory and
+				run:</p>
+				<pre><code><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span>
+</code></pre><p>Then import the module into Node with the following command:</p>
+				<pre><code class="lang-node">&gt; disposable = require(&#39;phosphor-disposable&#39;);
+</code></pre>
+				<p>To convert a function into a disposable delegate is straightforward, once the
+					delegate is created <code>dispose()</code> disposes of the delegate and invokes its
+					callback. The <code>dispose()</code> method only works the first time, subsequent calls
+				will do nothing.</p>
+				<pre><code class="lang-node">&gt; let delegate = new disposable.DisposableDelegate(() =&gt; {
+... console.log(&#39;disposed&#39;);
+... });
+
+&gt; delegate.dispose();
+disposed
+
+&gt; delegate.dispose();
+</code></pre>
+				<p>Collections of disposables are created with the <code>DisposableSet</code> constructor. An
+					array of disposable delegates can be passed as argument to the constructor,
+					individual delegates can also be added to the disposable set by means of the
+					<code>add()</code> method. The <code>dispose()</code> method will call the corresponding callback for
+				each delegate function in the set.</p>
+				<pre><code class="lang-node">&gt; let d1 = new disposable.DisposableDelegate(() =&gt; {
+... console.log(&#39;one&#39;);
+... });
+
+&gt; let d2 = new disposable.DisposableDelegate(() =&gt; {
+... console.log(&#39;two&#39;);
+... });
+
+&gt; let d3 = new disposable.DisposableDelegate(() =&gt; {
+... console.log(&#39;three&#39;);
+... });
+
+&gt; let set = new disposable.DisposableSet([d1, d2]);
+
+&gt; set.add(d3);
+
+&gt; set.dispose();
+one
+two
+three
+
+&gt; set.dispose();
+</code></pre>
+				<p>To create custom disposables you have to subclass the <code>IDisposable</code> class, as
+				you can see in the following typescript example:</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {
-  DisposableDelegate, DisposableSet, IDisposable
+  IDisposable
 } from <span class="hljs-string">'phosphor-disposable'</span>;
 
-
-<span class="hljs-comment">// Convert a function into a disposable.</span>
-<span class="hljs-keyword">let</span> delegate = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'disposed'</span>);
-});
-
-delegate.dispose();  <span class="hljs-comment">// logs: 'disposed'</span>
-delegate.dispose();  <span class="hljs-comment">// no-op</span>
-
-
-<span class="hljs-comment">// Create a collection of disposables.</span>
-<span class="hljs-keyword">let</span> d1 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'one'</span>);
-});
-
-<span class="hljs-keyword">let</span> d2 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'two'</span>);
-});
-
-<span class="hljs-keyword">let</span> d3 = <span class="hljs-keyword">new</span> DisposableDelegate(() =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'three'</span>);
-});
-
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> DisposableSet([d1, d2, d3]);
-
-<span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// logs: 'one', 'two', 'three'</span>
-<span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// no-op</span>
-
-
-<span class="hljs-comment">// Create a custom disposable.</span>
 <span class="hljs-keyword">class</span> MyDisposable <span class="hljs-keyword">implements</span> IDisposable {
 
   <span class="hljs-constructor"><span class="hljs-keyword">constructor</span>(id: string) </span>{
@@ -183,6 +202,8 @@ delegate.dispose();  <span class="hljs-comment">// no-op</span>
 <span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// logs: 'foo', 'bar', 'baz'</span>
 <span class="hljs-keyword">set</span>.dispose();  <span class="hljs-comment">// no-op</span>
 </code></pre>
+				<h2 id="api">API</h2>
+				<p><a href="http://phosphorjs.github.io/phosphor-disposable/api/">API Docs</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
