@@ -68,8 +68,7 @@
 				<h1 id="phosphor-disposable">phosphor-disposable</h1>
 				<p><a href="https://travis-ci.org/phosphorjs/phosphor-disposable?branch=master"><img src="https://travis-ci.org/phosphorjs/phosphor-disposable.svg" alt="Build Status"></a>
 				<a href="https://coveralls.io/github/phosphorjs/phosphor-disposable?branch=master"><img src="https://coveralls.io/repos/phosphorjs/phosphor-disposable/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a></p>
-				<p>This is a module for expressing the disposable object pattern. Two constructors
-				are included to create disposable delegates and collections of disposables.</p>
+				<p>A module for expressing the disposable object pattern.</p>
 				<h2 id="-a-name-install-a-package-install"><a name='install'></a>Package Install</h2>
 				<p><strong>Prerequisites</strong></p>
 				<ul>
@@ -111,22 +110,22 @@ npm run build
 				</ul>
 				<h2 id="bundle-for-the-browser">Bundle for the Browser</h2>
 				<p>Follow the package install instructions first.</p>
-				<p>Any bundler that understands how to <code>require()</code> files with .js and .css
-				extensions can be used with this package.</p>
+				<p>Any bundler that understands how to <code>require()</code> files with .js extensions
+				can be used with this package.</p>
 				<h2 id="usage-examples">Usage Examples</h2>
 				<p><strong>Note:</strong> This module is fully compatible with Node/Babel/ES6/ES5. Simply
 				omit the type declarations when using a language other than TypeScript.</p>
-				<p>To test the <code>phosphor-queue</code> module in a node interactive shell after the
+				<p>To test the <code>phosphor-disposable</code> module in a node interactive shell after the
 					<a href="#install">installation</a>, open a terminal in your current working directory and
 				run:</p>
 				<pre><code><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span>
 </code></pre><p>Then import the module into Node with the following command:</p>
 				<pre><code class="lang-node">&gt; disposable = require(&#39;phosphor-disposable&#39;);
 </code></pre>
-				<p>To convert a function into a disposable delegate is straightforward, once the
-					delegate is created <code>dispose()</code> disposes of the delegate and invokes its
-					callback. The <code>dispose()</code> method only works the first time, subsequent calls
-				will do nothing.</p>
+				<p>Converting a function into a disposable object is straightforward using the
+					provided <code>DisposableDelegate</code> class. Once the delegate is created, <code>dispose()</code>
+					disposes of the delegate and invokes the callback. The <code>dispose()</code> method will
+				only execute the function the first time, subsequent calls will do nothing.</p>
 				<pre><code class="lang-node">&gt; let delegate = new disposable.DisposableDelegate(() =&gt; {
 ... console.log(&#39;disposed&#39;);
 ... });
@@ -136,11 +135,11 @@ disposed
 
 &gt; delegate.dispose();
 </code></pre>
-				<p>Collections of disposables are created with the <code>DisposableSet</code> constructor. An
-					array of disposable delegates can be passed as argument to the constructor,
-					individual delegates can also be added to the disposable set by means of the
-					<code>add()</code> method. The <code>dispose()</code> method will call the corresponding callback for
-				each delegate function in the set.</p>
+				<p>Collections of disposables are created with the provided <code>DisposableSet()</code>
+					class. An array of disposable objects can be passed as argument to the class
+					constructor. Individual objects can also be added to the disposable set by
+					means of the <code>add()</code> method. The <code>dispose()</code> method will dispose all of the
+				objects added to the set.</p>
 				<pre><code class="lang-node">&gt; let d1 = new disposable.DisposableDelegate(() =&gt; {
 ... console.log(&#39;one&#39;);
 ... });
@@ -164,8 +163,7 @@ three
 
 &gt; set.dispose();
 </code></pre>
-				<p>To create custom disposables you have to subclass the <code>IDisposable</code> class, as
-				you can see in the following typescript example:</p>
+				<p>Custom disposable objects can be created by implementing <code>IDisposable</code>:</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {
   IDisposable
 } from <span class="hljs-string">'phosphor-disposable'</span>;
@@ -177,17 +175,18 @@ three
   }
 
   <span class="hljs-keyword">get</span> isDisposed(): <span class="hljs-built_in">boolean</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._id === <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._disposed;
   }
 
   dispose(): <span class="hljs-built_in">void</span> {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._id !== <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>._disposed) {
+      <span class="hljs-keyword">this</span>._disposed = <span class="hljs-literal">true</span>;
       <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>._id);
-      <span class="hljs-keyword">this</span>._id = <span class="hljs-literal">null</span>;
     }
   }
 
   <span class="hljs-keyword">private</span> _id: <span class="hljs-built_in">string</span>;
+  <span class="hljs-keyword">private</span> _disposed = <span class="hljs-literal">false</span>;
 }
 
 <span class="hljs-keyword">let</span> foo = <span class="hljs-keyword">new</span> MyDisposable(<span class="hljs-string">'foo'</span>);
